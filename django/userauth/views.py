@@ -1,8 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from datetime import timedelta
@@ -11,23 +9,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import update_last_login
 from django.utils import timezone
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
-from django.core.mail import send_mail
 from .serializers import UserSerializer
 import re
 
 @api_view(['POST'])
 def register(request):
 
-    print('register:' + str(request.data))
-
     if request.method == 'POST':
 
         serializer = UserSerializer(data=request.data)
-
-        print(serializer.is_valid())
 
         # Validate the data
         if serializer.is_valid():
@@ -42,14 +32,6 @@ def register(request):
             
             if not checkData(username, email, password):
                 return Response({'error': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
-
-            # check if user exists
-            User = get_user_model()
-            if User.objects.filter(username=username).exists():
-                return Response({'error': 'Username is already taken'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            if User.objects.filter(email=email).exists():
-                return Response({'error': 'Email is already taken'}, status=status.HTTP_400_BAD_REQUEST)
 
             # create user
             user = serializer.save()
@@ -70,7 +52,15 @@ def register(request):
         
         else:
 
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            print(serializer.errors)
+
+            if 'username' in serializer.errors:
+                
+                return Response({'error': "Username is already taken"}, status=status.HTTP_400_BAD_REQUEST)
+            
+            elif 'email' in serializer.errors:
+
+                return Response({'error': "Email is already taken"}, status=status.HTTP_400_BAD_REQUEST)
 
 def checkData(username, email, password):
     return is_valid_username(username) and is_valid_email(email) and is_valid_password(password)
@@ -134,12 +124,15 @@ def login(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout(request):
-    # You can do some server-side cleanup here if needed.
+
+    request.user.auth_token.delete()
+    
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def check_auth(request):
+
     auth_token = request.META.get('HTTP_AUTHORIZATION', 'No token found')
 
     if request.user.is_authenticated:
