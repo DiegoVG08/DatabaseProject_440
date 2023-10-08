@@ -29,7 +29,7 @@ const RegistrationComplete = () => {
   return (
     <div>
       <div id='container'>
-        <label>Registration Success! Check your email for a link to verify your profile!</label>
+        <label>registration complete</label>
         <button onClick={back}>Go Back</button>  {/* Fixed this line */}
       </div>
     </div>

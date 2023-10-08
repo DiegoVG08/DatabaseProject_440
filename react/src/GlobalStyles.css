@@ -1,7 +1,7 @@
 @import url('https://fonts.cdnfonts.com/css/gabarito');
 
 :root {
-  --main-bg-color: rgb(0, 50, 0);  
+  --main-bg-color: rgb(0, 40, 0);  
   --secondary-bg-color: rgb(0, 60, 0);  
   --third-bg-color: rgb(0, 150, 0);  
   --fourth-bg-color: rgb(1, 111, 1);  
@@ -9,8 +9,6 @@
   --accent-color: rgb(0, 68, 0);  
   --border-color: rgb(0, 100, 0);  
 }
-
-
 
 body {
   font-family: 'Gabarito', sans-serif;
@@ -78,6 +76,7 @@ h1 {
 
   color: var(--text-color);
   margin: 10px;
+  text-align: center;
 
 }
 
@@ -143,4 +142,15 @@ h2 {
   justify-content: center;
   align-items: center;
 
+}
+
+#button-div {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  /* align-content: space-around; */
 }

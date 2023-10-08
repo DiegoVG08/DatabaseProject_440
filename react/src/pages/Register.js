@@ -65,15 +65,37 @@ const Register = () => {
 
         } catch (error) {
 
+          //console.log('Error during registration!', error);
+
           if (error.response && error.response.data) {
+
+            //console.log('Server responded with:', error.response.data);
+
             const serverError = error.response.data.error;
         
             if (serverError === 'Username is already taken') {
+
+              //console.log('Username is already taken');
+
               setErrorMessage('Username is already taken');
+
+              setTimeout(() => {
+                setErrorMessage('');
+              }, 5000);
+
             } else if (serverError === 'Email is already taken') {
               setErrorMessage('Email is already taken');
+
+              setTimeout(() => {
+                setErrorMessage('');
+              }, 5000);
+
             } else {
               setErrorMessage('Something went wrong :/');
+
+              setTimeout(() => {
+                setErrorMessage('');
+              }, 5000);
             }
           }
         }
