@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
+import '../styles/Shared.css';
 
 const Login = () => {
 
@@ -55,7 +56,7 @@ const Login = () => {
 
     return (
 
-        <div id = "container">
+        <div class = "shared">
             {error && <label id='error'>{error}</label>}
             <div id='input-div'>
 

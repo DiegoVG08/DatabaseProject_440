@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import './Register.css';
 import { useEffect } from 'react';
+
+import '../styles/Shared.css';
+import '../styles/Register.css';
 
 const Register = () => {
 
@@ -161,7 +163,7 @@ const Register = () => {
   }, [password, confirmPassword]);
 
   return (
-    <div id = 'container'>
+    <div class = "shared">
 
         {errorMessage && <label id='error'>{errorMessage}</label>}
 
@@ -247,8 +249,8 @@ const Register = () => {
 
             </div>
 
-        <button onClick={signup}>SIGN-UP</button>
-        <button onClick={redirect}>CANCEL</button>
+        <button onClick={signup}>Register</button>
+        <button onClick={redirect}>Go Back</button>
         
     </div>
   )

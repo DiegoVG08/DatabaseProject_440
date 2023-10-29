@@ -121,19 +121,9 @@ def login(request):
         # Authentication failed
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def logout(request):
-
-    request.user.auth_token.delete()
-    
-    return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def check_auth(request):
-
-    auth_token = request.META.get('HTTP_AUTHORIZATION', 'No token found')
 
     if request.user.is_authenticated:
         
@@ -154,7 +144,7 @@ def get_account_data(request):
         # Use the serializer
         serializer = UserSerializer(user)
 
-        print(serializer.data)
+        # print(serializer.data)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 

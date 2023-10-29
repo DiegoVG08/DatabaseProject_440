@@ -24,9 +24,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'userauth',
     'corsheaders',
+    'phase_two',
 ]
 
 MIDDLEWARE = [
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -35,6 +37,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -79,6 +82,7 @@ DATABASES = {
         'PASSWORD': config("DB_PASSWORD", default=None),
         'HOST': config("DB_HOST", default=None),
         'PORT': config("DB_PORT", default=None),
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 
