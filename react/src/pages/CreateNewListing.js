@@ -12,9 +12,10 @@ const CreateNewListing = () => {
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
     const navigate = useNavigate();
+    const [message, setMessage] = useState('');
 
     const create = async () => {
-        
+
         var categories = category.split(',');
 
         const userdata = JSON.parse(localStorage.getItem('user_data'));
@@ -26,7 +27,7 @@ const CreateNewListing = () => {
         console.log("description: " + description);
         console.log("price: " + price);
         console.log("categories: " + categories);
-        console.log("id: " + userdata.id);
+        console.log("username: " + userdata.username);
 
         try {
             const response = await axios.post('http://127.0.0.1:8000/create-item/', {
@@ -34,15 +35,25 @@ const CreateNewListing = () => {
                 description,
                 price,
                 categories,
-                user: userdata.id,
+                username: userdata.username,
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,  // Replace 'token' with your actual token variable
                 }
             });
             
-            if (response.status === 200) {
+            if (response.status === 201) {
                 console.log('Item created:', response.data);
+                setMessage('Item created!');
+                setTimeout(() => {
+                    setMessage('');
+                }, 3000);
+
+                // Reset the fields
+                setTitle('');
+                setDescription('');
+                setPrice('');
+                setCategory('');
             }
         } catch (error) {
             console.log('Error during item creation!', error);
@@ -53,31 +64,16 @@ const CreateNewListing = () => {
         navigate('/home');
     }
 
-    const test = async () => {
-
-        try {
-            const response = await axios.get('http://127.0.0.1:8000/phasetwotest/');
-            
-            if (response.status === 200) {
-                console.log(response.data);
-            }
-
-        } catch (error) {
-
-            console.log('Error', error);
-        }
-    }
-
   return (
     
     <div className='container'>
         <Navbar></Navbar>
         <h1>Create a new listing:</h1>
-        <div class='item-form'>
-            <div class='input-div'>
+        <div className='item-form'>
+            <div className='input-div'>
 
-                <label class='input-label'>Title</label>
-                <input class='input-field'
+                <label className='input-label'>Title</label>
+                <input className='input-field'
 
                 type = "text"
                 placeholder="i.e. Smartphone"
@@ -88,10 +84,10 @@ const CreateNewListing = () => {
 
             </div>
 
-            <div class='input-div'>
+            <div className='input-div'>
 
-                <label class='input-label'>Description</label>
-                <textarea class='input-field'
+                <label className='input-label'>Description</label>
+                <textarea className='input-field'
 
                 type = "text"
                 placeholder="i.e. This is the new iPhone 15 Pro Max"
@@ -101,10 +97,10 @@ const CreateNewListing = () => {
 
             </div>
 
-            <div class='input-div'>
+            <div className='input-div'>
 
-                <label class='input-label'>Categories</label>
-                <textarea class='input-field'
+                <label className='input-label'>Categories</label>
+                <textarea className='input-field'
 
                 type = "text"
                 placeholder="seperated by commas i.e. Electronics, Phones, Apple"
@@ -114,10 +110,10 @@ const CreateNewListing = () => {
 
             </div>
 
-            <div class='input-div'>
+            <div className='input-div'>
 
-                <label class='input-label'>Price</label>
-                <input class='input-field'
+                <label className='input-label'>Price</label>
+                <input className='input-field'
 
                 type = "text"
                 placeholder="i.e. 1000"
@@ -127,12 +123,14 @@ const CreateNewListing = () => {
 
             </div>
             <div className='button-div'>
-                <button onClick={create}>Create New Listing</button>
+                <button onClick={create}>Submit</button>
                 <button onClick={redirect}>Go Back</button>
                 {/* <button onClick={test}>test</button> */}
             </div>
             
         </div>
+
+        <label>{message}</label>
     </div>
   )
 }

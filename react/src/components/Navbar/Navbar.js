@@ -61,12 +61,12 @@ const Navbar = () => {
 
   return (
     <nav class="nav">
-        <a href = "/home" class="nav-element">DSJ-DDP p2</a>
-        <label>Signed in as {username}</label>
+        <a href = "/home" className="nav-element">DSJ-DDP p2</a>
+        <h2>Signed in as {username}</h2>
         <ul>
           
           <CheckAuthButton/>
-          <button onClick={create_listing} class="create-listing">Create New Listing</button>
+          <button onClick={create_listing} className="create-listing">Create New Item</button>
           <button onClick={sign_out} className='signout'>Sign Out</button>
         </ul>
     </nav>

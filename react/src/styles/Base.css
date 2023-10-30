@@ -39,7 +39,7 @@ label {
   margin: 10px;
 }
 
-#error {
+.error {
 
   color: red;
   margin: 10px;
@@ -82,7 +82,7 @@ h2 {
   
 }
 
-#input-label {
+.input-label {
 
   display: block;
   margin: 10px;
@@ -90,7 +90,7 @@ h2 {
   width: 100px;
 }
 
-#input-field{
+.input-field{
 
   display: flex;
   align-items: center;
@@ -100,7 +100,7 @@ h2 {
 }
 
 
-#input-div {
+.input-div {
 
   display: flex;
   align-items: center;
@@ -139,7 +139,7 @@ h2 {
 
 }
 
-#button-div {
+.button-div {
 
   display: flex;
   align-items: center;

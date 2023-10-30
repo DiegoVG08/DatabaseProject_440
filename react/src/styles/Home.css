@@ -19,3 +19,31 @@
 .home .search-field::placeholder {
     text-align: center;
 }
+
+#pagination-first-page {
+
+    background: none;
+    border: none; 
+    box-shadow: none; 
+}
+
+#pagination-previous-page {
+
+    background: none;
+    border: none; 
+    box-shadow: none; 
+}
+
+#pagination-next-page {
+
+    background: none;
+    border: none; 
+    box-shadow: none; 
+}
+
+#pagination-last-page {
+
+    background: none;
+    border: none; 
+    box-shadow: none; 
+}

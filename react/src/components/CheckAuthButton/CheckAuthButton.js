@@ -25,7 +25,6 @@ const CheckAuthButton = () => {
         console.log("username: ", response.data.username)
         console.log("user_id:", response.data.user_id)
         console.log("email: ", response.data.email)
-        console.log("is_activated: ", response.data.is_activated)
         setResult(`response.data: ${response.data.message}`);
         setButtonColor('green');
       } else {
@@ -42,7 +41,7 @@ const CheckAuthButton = () => {
 
   return (
     <div>
-      <button class="check-auth-button"
+      <button className="check-auth-button"
         onClick={check_auth} 
         style={{ backgroundColor: buttonColor }}
       >

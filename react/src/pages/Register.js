@@ -38,11 +38,11 @@ const Register = () => {
 
         setErrorMessage('Please enter a valid email')
       
-      } else if(!checkPassword()) {
+      } else if(passwordValid) {
 
         setErrorMessage('Password must include number and must be a reasonable length')
       
-      } else if(!checkConfirmPassword()) {
+      } else if(confirmPasswordValid) {
 
         setErrorMessage( 'Passwords do not match!')
       
@@ -128,18 +128,6 @@ const Register = () => {
     return true;
   }
   
-  function checkConfirmPassword() {
-
-    if(!(password === confirmPassword)) {
-
-      setConfirmPasswordValid(false);
-      return false;
-
-    }
-    setConfirmPasswordValid(true);  // Reset to true when valid
-    return true;
-  }
-  
   function checkEmail() {
     if(!(email.includes("@") && email.includes("."))) {
       setEmailValid(false);
@@ -163,97 +151,93 @@ const Register = () => {
   }, [password, confirmPassword]);
 
   return (
-    <div class = "shared">
+    <div className="shared">
+      {errorMessage && <label className='error'>{errorMessage}</label>}
+      <form onSubmit={signup}>
 
-        {errorMessage && <label id='error'>{errorMessage}</label>}
+        <div className='input-div'>
+          <label className='input-label'>Username</label>
+          <input className={`input-field ${usernameValid ? '' : 'red-input'}`}
+              type="text"
+              placeholder="Username"
+              onChange={e => { setUsername(e.target.value); checkUsername(); }}
+          />
+        </div>
 
-            <div id='input-div'>
+        <div className='input-div'>
 
-                <label id='input-label'>Username</label>
-                <input id='input-field'
-
-                  className={usernameValid ? '': 'red-input'}
-                  type = "text"
-                  placeholder="Username"
-                  onChange={e => { setUsername(e.target.value); checkUsername(); }}
-
-                />
-
-            </div>
-
-            <div id='input-div'>
-
-                <label id='input-label'>First Name</label>
-                <input id='input-field'
-
-                  type = "text"
-                  placeholder="First Name"
-                  onChange={e => { setFirstName(e.target.value);}}
-
-                />
-
-            </div>
-
-            <div id='input-div'>
-
-                <label id='input-label'>Last Name</label>
-                <input id='input-field'
-
-                  type = "text"
-                  placeholder="Last Name"
-                  onChange={e => { setLastName(e.target.value);}}
-
-                />
-
-            </div>
-
-            <div id='input-div'>
-
-                <label id='input-label'>E-Mail</label>
-                <input id='input-field'
-
-                  className={emailValid ? '': 'red-input'}
-                  type = "text"
-                  placeholder="E-Mail"
-                  onChange={e => {setEmail(e.target.value); checkEmail(); }}
-
-                />
-
-            </div>
-
-            <div id='input-div'>
+            <label className='input-label'>First Name</label>
+            <input 
             
-              <label id='input-label'>Password</label>
-              <input id='input-field'
+              className='input-field'
+              type = "text"
+              placeholder="First Name"
+              onChange={e => { setFirstName(e.target.value);}}
 
-                className={passwordValid ? '': 'red-input'}
-                type = "password"
-                placeholder="Password"
-                onChange={e => {setPassword(e.target.value); checkPassword();}}
+            />
 
-              />
+        </div>
 
-            </div>
+        <div className='input-div'>
 
-            <div id='input-div'>
-            
-              <label id='input-label'>Confirm Password</label>
-              <input id='input-field'
+            <label className='input-label'>Last Name</label>
+            <input 
+              
+              className='input-field'
+              type = "text"
+              placeholder="Last Name"
+              onChange={e => { setLastName(e.target.value);}}
 
-                className={confirmPasswordValid ? '': 'red-input'}
-                type = "password"
-                placeholder="Confirm Password"
-                onChange={e => {setConfirmPassword(e.target.value);}}
+            />
 
-              />
+        </div>
 
-            </div>
+        <div className='input-div'>
 
-        <button onClick={signup}>Register</button>
-        <button onClick={redirect}>Go Back</button>
+            <label className='input-label'>E-Mail</label>
+            <input className={`input-field ${emailValid ? '' : 'red-input'}`}
+                type="text"
+                placeholder="E-Mail"
+                onChange={e => { setEmail(e.target.value); checkEmail(); }}
+                autoComplete='email'
+            />
+
+        </div>
+
+        <div className='input-div'>
         
+          <label className='input-label'>Password</label>
+          <input
+
+              className='input-field'
+              type = "password"
+              placeholder="Password"
+              autoComplete="new-password" // added this
+              onChange={e => {setPassword(e.target.value); checkPassword();}}
+          />
+
+        </div>
+
+        <div className='input-div'>
+        
+          <label className='input-label'>Confirm Password</label>
+          <input 
+
+              className='input-field'
+              type = "password"
+              placeholder="Confirm Password"
+              autoComplete="new-password" // added this
+              onChange={e => {setConfirmPassword(e.target.value);}}
+          />
+
+        </div>
+
+        <button type="submit">Register</button>
+        <button type="button" onClick={redirect}>Go Back</button>
+
+      </form>
     </div>
-  )
+  );
 }
 
 export default Register
