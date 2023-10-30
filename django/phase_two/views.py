@@ -49,3 +49,9 @@ def get_items(request):
     items = Item.objects.all()
     serializer = ItemSerializer(items, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def comment(request):
+    print(request.data)
+    return Response({"message": "Comment successful"}, status=status.HTTP_200_OK)

@@ -1,0 +1,37 @@
+.selected {
+    background-color: #007BFF;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-color);
+}
+
+th {
+    background-color: #84d8ff;
+    padding: 10px;
+    border: 1px solid #dddddd;
+    color: black;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #4675a0;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+    color: black;
+}
+
+
+td, th {
+    vertical-align: middle;
+}
+
+.table-container {
+    padding: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}

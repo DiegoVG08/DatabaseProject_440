@@ -31,6 +31,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    /* border: 1px solid white; */
+}
+
+.rtd_Table {
+    background-color: var(--secondary-bg-color);
+}
+
+.rdt_TableRow.rdt_TableRow--highlight {
+    background-color: yourHighlightColorHere !important; /* Replace `yourHighlightColorHere` with your desired color */
+}
+
+.button-div {
+
+    display: flex;
+    align-items: center;
     justify-content: center;
     /* border: 1px solid white; */
 }

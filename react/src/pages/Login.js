@@ -12,6 +12,7 @@ const Login = () => {
     const navigate = useNavigate();
   
     const login = async (event) => {
+
         event.preventDefault(); // Prevent default form submission
 
         try {
