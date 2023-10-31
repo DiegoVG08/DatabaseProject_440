@@ -2,7 +2,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import ItemSerializer
+from .serializers import ItemSerializer, CommentSerializer
 from rest_framework.permissions import IsAuthenticated
 from .models import Item
 from django.utils import timezone
@@ -45,13 +45,49 @@ def phasetwotest(request):
 @api_view(['GET'])
 def get_items(request):
     print(request.user)
-    print(request.data.get('entry'))
-    items = Item.objects.all()
+    
+    # Getting 'entry' from request query parameters
+    entry = request.GET.get('entry', None)
+    
+    # If 'entry' is present and not empty, filter by it, otherwise return all
+    if entry:
+        items = Item.objects.filter(categories__contains=[entry])
+        print(items)
+    else:
+        items = Item.objects.all()
+
+    
     serializer = ItemSerializer(items, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def comment(request):
+def create_comment(request):
+    
     print(request.data)
-    return Response({"message": "Comment successful"}, status=status.HTTP_200_OK)
+
+    if not request.user.is_authenticated:
+        return Response({"message": "You are not authorized to create a comment"}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    if request.method == 'POST':
+        serializer = CommentSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            
+            return Response({"message": "Comment created successfully"}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"message": "Comment created successfully"}, status=status.HTTP_201_CREATED)
+
+@api_view(['POST'])
+def create_item_test(request):
+    if request.method == 'POST':
+        serializer = ItemSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Item created successfully"}, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

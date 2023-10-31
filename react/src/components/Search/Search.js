@@ -2,7 +2,7 @@ import React from 'react';
 import './Search.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-
+import CreateComment from '../CreateComment/CreateComment';
 import Table from '../Tables/Tables';
 
 const Search = () => {
@@ -46,30 +46,38 @@ const Search = () => {
 
     return (
         <div className='search'>
-
-            <div className="input-div">
-
-                <input
-                    className='input-field'  // Use "className" instead of "class" in JSX.
-                    type="text"
-                    placeholder="Search for a category"
-                    onChange={e => setEntry(e.target.value)}
+    
+            <div className='left-div'>
+    
+                <div className="input-div">
+    
+                    <input
+                        className='input-field'
+                        type="text"
+                        placeholder="Search for a category"
+                        onChange={e => setEntry(e.target.value)}
+                    />
+    
+                </div>
+    
+                <div className="result-window">
+                    <Table data={data} onRowSelect={handleTableRowSelect}/>
+                </div>
+                    
+                <div className='button-div'>
+                    <button className='init_database_bttn' onClick={init_db}>Initialize Database</button>
+                </div>
+    
+            </div>
+    
+            <div className='right-div'>
+                <CreateComment 
+                    username={selectedRow ? selectedRow.username : null}
+                    item={selectedRow ? selectedRow.title : null}
+                    item_id={selectedRow ? selectedRow.id : null}
                 />
-                {/* <label className='search-label' onClick={search}>
-                    <i className="fa fa-arrow-right" aria-hidden="true"></i>
-                </label> */}
-
             </div>
-
-            <div className="result-window">
-                <Table data={data} onRowSelect={handleTableRowSelect}/>
-            </div>
-                
-            <div className='button-div'>
-                <button className='init_database_bttn' onClick={init_db}>Initialize Database</button>
-                <button className='create_review' onClick={comment}>Comment</button>
-            </div>
-
+    
         </div>
     )
 }

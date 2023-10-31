@@ -4,12 +4,31 @@ import './Tables.css';
 
 function Table({ data, onRowSelect }) {
     const [selectedRow, setSelectedRow] = useState(null);
+    const [sortField, setSortField] = useState(null);
+    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
   
     const handleRowClick = (index, rowData) => {
       setSelectedRow(index);
       // console.log('Row clicked:', rowData);
       if (onRowSelect) onRowSelect(rowData);
-  };
+    };
+
+    const handleSort = (field) => {
+      if (sortField === field) {
+          setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+      } else {
+          setSortField(field);
+          setSortOrder('asc');
+      }
+    };
+
+    const sortedData = [...data].sort((a, b) => {
+        if (!sortField) return 0;
+
+        if (a[sortField] < b[sortField]) return sortOrder === 'asc' ? -1 : 1;
+        if (a[sortField] > b[sortField]) return sortOrder === 'asc' ? 1 : -1;
+        return 0;
+    });
 
     function formatShortDate(isoString) {
         const date = new Date(isoString);
@@ -26,17 +45,17 @@ function Table({ data, onRowSelect }) {
     return (
       <table>
         <thead>
-            <tr>
-                <th>Username</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Created</th>
-            </tr>
+          <tr>
+              <th onClick={() => handleSort('username')}>Username</th>
+              <th onClick={() => handleSort('title')}>Title</th>
+              <th onClick={() => handleSort('description')}>Description</th>
+              <th onClick={() => handleSort('price')}>Price</th>
+              <th onClick={() => handleSort('categories')}>Category</th>
+              <th onClick={() => handleSort('created_at')}>Created</th>
+          </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {sortedData.map((row, index) => (
             <tr
               key={index}
               onClick={() => handleRowClick(index, row)}
@@ -44,7 +63,7 @@ function Table({ data, onRowSelect }) {
             >
                 <td>{row.username}</td>
                 <td>{row.title}</td>
-                <td>{row.description}</td>
+                <td id='description_cell'>{row.description}</td>
                 <td>{row.price}</td>
                 <td>{row.categories ? row.categories.join(', ') : 'N/A'}</td>
                 <td>{formatShortDate(row.created_at) || 'N/A'}</td>
