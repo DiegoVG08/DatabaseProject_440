@@ -19,7 +19,8 @@ const CreateNewListing = () => {
         var categories = category.split(',');
 
         const userdata = JSON.parse(localStorage.getItem('user_data'));
-        // console.log(userdata);
+        
+        console.log("userdata" + userdata);
 
         const token = localStorage.getItem('access_token');
 

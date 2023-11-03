@@ -14,6 +14,8 @@ const CreateComment = ({ username, item, item_id }) => {
   const create_comment = async () => {
     const token = localStorage.getItem('access_token');
 
+    const username = JSON.parse(localStorage.getItem('user_data')).username;
+
     console.log('Creating comment:', comment);
     console.log('item_id:', item_id);
     console.log('username:', username);

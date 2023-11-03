@@ -11,9 +11,9 @@ const Search = () => {
     const [data, setData] = useState([]);
     const [selectedRow, setSelectedRow] = useState(null);
 
-    const init_db = async () => {
+    const search = async () => {
 
-        console.log('Initializing database...');
+        
         try {
             const response = await axios.get('http://127.0.0.1:8000/get-items/', {
                 params: { entry: entry },
@@ -30,6 +30,24 @@ const Search = () => {
         }
     }
 
+    const init_db = async () => {
+
+        console.log('Initializing database...');
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/init-db/');
+
+            if (response.status === 200) {
+                
+                console.log(response.data);
+                
+            }
+
+        } catch (error) {
+            
+            console.log('Error during database initialization!', error);
+        }
+    }
+
     const handleTableRowSelect = (selectedData) => {
 
         setSelectedRow(selectedData);
@@ -38,11 +56,6 @@ const Search = () => {
     useEffect(() => {
         console.log('Updated selected row:', selectedRow);
     }, [selectedRow]);
-
-    const comment = async () => {
-
-        
-    }
 
     return (
         <div className='search'>
@@ -57,6 +70,8 @@ const Search = () => {
                         placeholder="Search for a category"
                         onChange={e => setEntry(e.target.value)}
                     />
+
+                    <button className='search-bttn' onClick={search}>Search</button>
     
                 </div>
     
@@ -65,7 +80,7 @@ const Search = () => {
                 </div>
                     
                 <div className='button-div'>
-                    <button className='init_database_bttn' onClick={init_db}>Initialize Database</button>
+                    <button className='init-db-bttn' onClick={init_db}>Initialize Database</button>
                 </div>
     
             </div>

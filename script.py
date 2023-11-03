@@ -2,7 +2,7 @@ import requests
 import json
 import random
 
-API_KEY = "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"
+API_KEY = "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"
 API_ENDPOINT = "https://api.openai.com/v1/chat/completions"
 
 def get_completion(messages, model="gpt-4-0613", temperature=1):
@@ -35,24 +35,18 @@ def post_to_endpoint(data):
         raise Exception(f"Error {response.status_code}: {response.text}")
 
 
-categories = ["hiking", "tenting", "fitness", "kitchen", "electronic", "tv", "iphone", "samsung", "computer", "furniture", "clothing", "shoes", "accessories", "toys", "games", "books", "movies", "music", "sports", "outdoors", "automotive", "tools", "home", "garden", "pets", "beauty", "health", "grocery", "baby", "industrial", "scientific", "handmade"]
-random_category = random.choice(categories)
-random_username = f"user000{random.randint(1, 5)}"
+categories = ["garden", "pets", "beauty", "health", "baby"]
 
-prompt = f"Generate a JSON formatted data for a random {random_category} product. The data should be formatted like this: 'title': indicating the product's name,  'description': 'breifly explaining its features', 'price': as a float, 'categories': list of categories it belongs to, and a 'username': '{random_username}'."
-
-message = [{"role": "user", "content": prompt}]
-
-while True:
-    response_text = get_completion(message)
-    print(response_text)
-    data_to_post = json.loads(response_text)
-    response_from_endpoint = post_to_endpoint(data_to_post)
-
-    print(response_from_endpoint)
-
-    # Update random values for the next iteration
-    random_category = random.choice(categories)
-    random_username = f"user000{random.randint(1, 5)}"
-    prompt = f"Generate a JSON formatted data for a random {random_category} product. The data should be formatted like this: 'title': indicating the product's name,  'description': 'breifly explaining its features', 'price': as a float, 'categories': list of categories it belongs to, and a 'username': '{random_username}'."
-    message = [{"role": "user", "content": prompt}]
+for category in categories:
+    print(f"Generating data for {category} category")
+    for _ in range(5):
+        random_username = f"user000{random.randint(1, 5)}"
+        prompt = f"Generate one JSON formatted data for a 'random category': {category}. The data should be formatted like this: 'title': indicating the product's name,  'description': 'breifly explaining its features', 'price': as a float, 'categories': list of categories it belongs to including the chosen random category, and a 'username': '{random_username}'."
+        
+        message = [{"role": "user", "content": prompt}]
+        response_text = get_completion(message)
+        print(response_text)
+        
+        data_to_post = json.loads(response_text)
+        response_from_endpoint = post_to_endpoint(data_to_post)
+        print(response_from_endpoint)
