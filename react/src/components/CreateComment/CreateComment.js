@@ -14,17 +14,17 @@ const CreateComment = ({ username, item, item_id }) => {
   const create_comment = async () => {
     const token = localStorage.getItem('access_token');
 
-    const username = JSON.parse(localStorage.getItem('user_data')).username;
+    const userdata = JSON.parse(localStorage.getItem('user_data'));
 
     console.log('Creating comment:', comment);
     console.log('item_id:', item_id);
-    console.log('username:', username);
+    console.log('user:', userdata.id);
     console.log('rating:', rating); 
 
     try {
       const response = await axios.post('http://127.0.0.1:8000/create-comment/', {
         item: item_id,
-        username,
+        user: userdata.id,
         rating,
         comment,
       }, {

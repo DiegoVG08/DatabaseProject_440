@@ -38,17 +38,18 @@ const Register = () => {
 
         setErrorMessage('Please enter a valid email')
       
-      } else if(passwordValid) {
+      } else if(!passwordValid) {
 
         setErrorMessage('Password must include number and must be a reasonable length')
       
-      } else if(confirmPasswordValid) {
+      } else if(!confirmPasswordValid) {
 
         setErrorMessage( 'Passwords do not match!')
       
       } else {
 
         try {
+          console.log('Password before sending:', password);
 
           const response = await axios.post('http://127.0.0.1:8000/register/', {
             username,
@@ -121,9 +122,13 @@ const Register = () => {
   function checkPassword() {
     const hasNumber = /\d/;
     if(password.length < 8 || password.length > 25 || !hasNumber.test(password)) {
+      // console.log("password:", password)
+      // console.log("Password is invalid");
       setPasswordValid(false);
       return false;
     }
+    // console.log("password:", password)
+    // console.log("Password is valid");
     setPasswordValid(true);  // Reset to true when valid
     return true;
   }
@@ -150,10 +155,15 @@ const Register = () => {
     checkConfirmPassword();
   }, [password, confirmPassword]);
 
+  useEffect(() => {
+    checkPassword();
+  }, [password]);
+  
+
   return (
     <div className="shared">
       {errorMessage && <label className='error'>{errorMessage}</label>}
-      <form onSubmit={signup}>
+      
 
         <div className='input-div'>
           <label className='input-label'>Username</label>
@@ -213,7 +223,7 @@ const Register = () => {
               type = "password"
               placeholder="Password"
               autoComplete="new-password" // added this
-              onChange={e => {setPassword(e.target.value); checkPassword();}}
+              onChange={e => {setPassword(e.target.value);}}
           />
 
         </div>
@@ -232,10 +242,9 @@ const Register = () => {
 
         </div>
 
-        <button type="submit">Register</button>
+        <button type="submit" onClick={signup}>Register</button>
         <button type="button" onClick={redirect}>Go Back</button>
 
-      </form>
     </div>
   );
 }

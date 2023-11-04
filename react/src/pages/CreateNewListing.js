@@ -28,7 +28,7 @@ const CreateNewListing = () => {
         console.log("description: " + description);
         console.log("price: " + price);
         console.log("categories: " + categories);
-        console.log("username: " + userdata.username);
+        console.log("user: " + userdata.id);
 
         try {
             const response = await axios.post('http://127.0.0.1:8000/create-item/', {
@@ -36,7 +36,7 @@ const CreateNewListing = () => {
                 description,
                 price,
                 categories,
-                username: userdata.username,
+                user: userdata.id,
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`,  // Replace 'token' with your actual token variable
