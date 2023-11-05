@@ -58,6 +58,7 @@ const CreateNewListing = () => {
             }
         } catch (error) {
             console.log('Error during item creation!', error);
+
         }
     }
 

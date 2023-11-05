@@ -36,7 +36,7 @@ const Search = () => {
         try {
             const response = await axios.post('http://127.0.0.1:8000/init-db/');
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 
                 console.log(response.data);
                 

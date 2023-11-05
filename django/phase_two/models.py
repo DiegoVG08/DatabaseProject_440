@@ -24,6 +24,3 @@ class Comment(models.Model):
     rating = models.CharField(max_length=255, default='')
     comment = models.CharField(max_length=255, default='')
     created_at = models.DateTimeField(default=timezone.now)
-
-
-

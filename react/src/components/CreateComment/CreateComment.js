@@ -5,6 +5,7 @@ import './CreateComment.css';
 const CreateComment = ({ username, item, item_id }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState('fair');
+  const [message, setMessage] = useState('');
 
   // Observe changes to the 'rating' state
   useEffect(() => {
@@ -39,8 +40,15 @@ const CreateComment = ({ username, item, item_id }) => {
       }
     } catch (error) {
       console.log('Error during comment creation!', error);
-    }
-  };
+        if(error.status == 406) {
+          console.log("You cannot comment on your own item!");
+          setMessage('You cannot comment on your own item!');
+        } else if(error.status == 409) {
+          console.log("you can only comment three times a day!");
+          setMessage("you can only comment three times a day!")
+        }
+      }
+  }
 
   return (
     <div className='comment_div'>
